@@ -8,9 +8,16 @@
   <script>
     (function(d){
       var config={kitId:'flo3tpw',scriptTimeout:3000,async:true},
-      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;
-      h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;
-      tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};
+      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),
+      tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;
+      h.className+=" wf-loading";
+      tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;
+      tk.onload=tk.onreadystatechange=function(){
+        a=this.readyState;
+        if(f||a&&a!="complete"&&a!="loaded")return;
+        f=true;clearTimeout(t);
+        try{Typekit.load({active:function(){ if(window._P) window._P.redraw(); }})}catch(e){}
+      };
       s.parentNode.insertBefore(tk,s);
     })(document);
   </script>
@@ -19,8 +26,8 @@
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #111;
       --panel: #161616;
       --border: #222;
       --text: #fff;
@@ -28,8 +35,9 @@
       --sub: #777;
       --accent: #554efe;
     }
+
     body {
-      background: var(--bg);
+      background: #111;
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       font-size: 12px;
@@ -53,10 +61,9 @@
       padding: 20px 16px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
     #panel-body::-webkit-scrollbar { width: 3px; }
-    #panel-body::-webkit-scrollbar-track { background: transparent; }
     #panel-body::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
     #panel-foot {
       padding: 12px 16px;
@@ -64,86 +71,48 @@
     }
 
     /* ─── 타이포 ─── */
-    .app-title { font-size: 17px; font-weight: 700; letter-spacing: -0.04em; }
-    .app-sub { font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
-    .sec-label {
-      font-size: 9px;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
+    .title { font-size: 16px; font-weight: 700; letter-spacing: -0.04em; }
+    .sub { font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
+    .lbl-sec { font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 7px; }
+    .lbl { color: var(--sub); }
+    .val { color: var(--text); font-variant-numeric: tabular-nums; min-width: 38px; text-align: right; }
 
     /* ─── 섹션 ─── */
     .sec { display: flex; flex-direction: column; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
     .divider { height: 1px; background: var(--border); }
-
-    /* ─── 행 ─── */
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-    .lbl { color: var(--sub); }
-    .val { color: var(--text); font-variant-numeric: tabular-nums; min-width: 36px; text-align: right; }
 
     /* ─── 슬라이더 ─── */
     input[type=range] {
       -webkit-appearance: none;
-      width: 100%;
-      height: 2px;
-      background: #252525;
-      border-radius: 1px;
-      outline: none;
+      width: 100%; height: 2px;
+      background: #252525; border-radius: 1px; outline: none;
       margin-bottom: 10px;
     }
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 14px; height: 14px;
-      background: #fff;
-      border-radius: 50%;
-      cursor: pointer;
+      background: #fff; border-radius: 50%; cursor: pointer;
     }
 
     /* ─── 탭 ─── */
     .tabs {
-      display: flex;
-      background: #1c1c1c;
-      border-radius: 6px;
-      padding: 3px;
-      gap: 2px;
-      margin-bottom: 4px;
+      display: flex; background: #1c1c1c; border-radius: 6px;
+      padding: 3px; gap: 2px; margin-bottom: 4px;
     }
     .tab {
-      flex: 1;
-      padding: 6px 4px;
-      background: none;
-      border: none;
-      border-radius: 4px;
-      color: var(--muted);
-      font-size: 11px;
-      cursor: pointer;
-      transition: all 0.12s;
-      white-space: nowrap;
+      flex: 1; padding: 6px 4px; background: none; border: none;
+      border-radius: 4px; color: var(--muted); font-size: 11px;
+      cursor: pointer; transition: all 0.12s; white-space: nowrap;
     }
     .tab.on { background: #2a2a2a; color: var(--text); }
 
     /* ─── 색상 팔레트 ─── */
-    .palette {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+    .palette { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
     .swatch { position: relative; width: 30px; height: 30px; }
     .swatch input[type=color] {
-      width: 100%; height: 100%;
-      border: none; border-radius: 6px;
-      cursor: pointer; padding: 0;
-      -webkit-appearance: none;
+      width: 100%; height: 100%; border: none; border-radius: 6px;
+      cursor: pointer; padding: 0; -webkit-appearance: none;
     }
     .swatch input[type=color]::-webkit-color-swatch-wrapper { padding: 0; border-radius: 6px; }
     .swatch input[type=color]::-webkit-color-swatch { border: none; border-radius: 6px; }
@@ -155,8 +124,8 @@
       cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
     .swatch-add {
-      width: 30px; height: 30px;
-      background: none; border: 1px dashed #2a2a2a; border-radius: 6px;
+      width: 30px; height: 30px; background: none;
+      border: 1px dashed #2a2a2a; border-radius: 6px;
       color: #333; font-size: 18px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
     }
@@ -174,8 +143,7 @@
     .sw input { display: none; }
     .sw-track {
       position: absolute; inset: 0;
-      background: #252525; border-radius: 10px; cursor: pointer;
-      transition: background 0.2s;
+      background: #252525; border-radius: 10px; cursor: pointer; transition: background 0.2s;
     }
     .sw-track::after {
       content: ''; position: absolute;
@@ -184,6 +152,15 @@
     }
     .sw input:checked + .sw-track { background: var(--accent); }
     .sw input:checked + .sw-track::after { transform: translateX(14px); background: #fff; }
+
+    /* ─── 색상 입력 inline ─── */
+    .color-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+    }
+    .color-pick {
+      width: 30px; height: 24px; border: none; background: none;
+      cursor: pointer; border-radius: 5px; padding: 0; -webkit-appearance: none;
+    }
 
     /* ─── 숫자 입력 ─── */
     .ninput {
@@ -196,66 +173,70 @@
 
     /* ─── 버튼 ─── */
     .btn {
-      width: 100%; padding: 10px;
-      border: none; border-radius: 6px;
-      font-size: 12px; font-weight: 500;
-      cursor: pointer; transition: opacity 0.15s;
-      letter-spacing: 0.02em;
-      margin-bottom: 6px;
+      width: 100%; padding: 10px; border: none; border-radius: 6px;
+      font-size: 12px; font-weight: 500; cursor: pointer;
+      transition: opacity 0.15s; letter-spacing: 0.02em; margin-bottom: 6px;
     }
     .btn:last-child { margin-bottom: 0; }
     .btn:hover { opacity: 0.82; }
     .btn-primary { background: var(--accent); color: #fff; }
     .btn-ghost { background: #1e1e1e; color: var(--sub); }
     .rec-badge {
-      font-size: 11px; color: #f55;
-      text-align: center; padding: 2px 0 6px;
-      display: none;
+      font-size: 11px; color: #f55; text-align: center;
+      padding: 2px 0 6px; display: none;
     }
     .rec-badge.on { display: block; }
 
-    /* ─── 스테이지 ─── */
+    /* ─── 캔버스 ─── */
     #stage {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0a0a0a;
-      overflow: hidden;
+      flex: 1; display: flex;
+      align-items: center; justify-content: center;
+      background: #0a0a0a; overflow: hidden;
     }
-    #stage canvas {
-      max-width: 100%;
-      max-height: 100%;
-      display: block;
+    #stage canvas { max-width: 100%; max-height: 100%; display: block; }
+
+    /* ─── 폰트 프리로더 (숨김) ─── */
+    #fp {
+      position: fixed; top: -999px; left: -999px;
+      opacity: 0; pointer-events: none; font-size: 1px;
     }
+    #fp .fa { font-family: 'adhesive-nr-eight', sans-serif; font-weight: 400; }
+    #fp .fk { font-family: 'kozuka-mincho-pr6n', serif; font-weight: 900; }
   </style>
 </head>
 <body>
+
+<!-- 폰트 프리로더: Canvas가 쓰려면 DOM에 먼저 렌더돼야 함 -->
+<div id="fp" aria-hidden="true">
+  <span class="fa">0123456789</span>
+  <span class="fk">一二三四五六七八九十百</span>
+</div>
 
 <!-- ─── 사이드 패널 ─── -->
 <aside id="panel">
   <div id="panel-body">
 
     <div>
-      <div class="app-title">마방진</div>
-      <div class="app-sub">Magic Square Generator</div>
+      <div class="title">마방진</div>
+      <div class="sub">Magic Square Generator</div>
     </div>
 
     <div class="divider"></div>
 
-    <!-- 마방진 설정 -->
+    <!-- 마방진 -->
     <div class="sec">
-      <div class="sec-label">마방진</div>
+      <div class="lbl-sec">마방진</div>
       <div class="row">
         <span class="lbl">차수 (n)</span>
         <span class="val" id="n-val">3 × 3</span>
       </div>
       <input type="range" id="n-range" min="3" max="9" step="1" value="3">
 
-      <div class="sec-label" style="margin-top:4px;">숫자 표기</div>
+      <div class="lbl-sec" style="margin-top:4px;">숫자 표기</div>
       <div class="tabs">
-        <button class="tab on" id="tab-a" onclick="setStyle('arabic')">아라비아 1 2 3</button>
-        <button class="tab" id="tab-c" onclick="setStyle('chinese')">한자 一 二 三</button>
+        <button class="tab on" id="tab-a" onclick="setNumMode('arabic')">아라비아</button>
+        <button class="tab" id="tab-c" onclick="setNumMode('chinese')">한자</button>
+        <button class="tab" id="tab-r" onclick="setNumMode('random')">랜덤 혼용</button>
       </div>
     </div>
 
@@ -263,19 +244,29 @@
 
     <!-- 색상 -->
     <div class="sec">
-      <div class="sec-label">셀 팔레트</div>
+      <div class="lbl-sec">셀 팔레트</div>
       <div class="palette" id="palette"></div>
 
-      <div class="row">
-        <span class="lbl">배경색</span>
-        <input type="color" id="bg-pick" value="#0d0d0d"
-          style="width:30px;height:24px;border:none;background:none;cursor:pointer;border-radius:5px;padding:0;">
+      <div class="lbl-sec">배경색</div>
+      <div class="color-row">
+        <input type="color" class="color-pick" id="bg-pick" value="#0d0d0d">
+        <span class="lbl">캔버스 배경</span>
+      </div>
+
+      <div class="lbl-sec">폰트 색상</div>
+      <div class="tabs" style="margin-bottom:8px;">
+        <button class="tab on" id="tc-auto" onclick="setTextColorMode('auto')">자동 대비</button>
+        <button class="tab" id="tc-manual" onclick="setTextColorMode('manual')">직접 지정</button>
+      </div>
+      <div class="color-row" id="tc-pick-row" style="display:none;">
+        <input type="color" class="color-pick" id="tc-pick" value="#ffffff">
+        <span class="lbl">폰트 색상</span>
       </div>
     </div>
 
     <!-- 색상 매핑 -->
     <div class="sec">
-      <div class="sec-label">색상 매핑</div>
+      <div class="lbl-sec">색상 매핑</div>
       <div class="radio-stack">
         <label class="radio-item">
           <input type="radio" name="cm" value="value" checked onchange="setCM(this.value)">
@@ -304,34 +295,22 @@
 
     <!-- 레이아웃 -->
     <div class="sec">
-      <div class="sec-label">레이아웃</div>
-      <div class="row">
-        <span class="lbl">셀 간격</span>
-        <span class="val" id="gap-val">3px</span>
-      </div>
+      <div class="lbl-sec">레이아웃</div>
+      <div class="row"><span class="lbl">셀 간격</span><span class="val" id="gap-val">3px</span></div>
       <input type="range" id="gap-range" min="0" max="40" value="3">
-      <div class="row">
-        <span class="lbl">모서리 반경</span>
-        <span class="val" id="rad-val">0px</span>
-      </div>
+      <div class="row"><span class="lbl">모서리 반경</span><span class="val" id="rad-val">0px</span></div>
       <input type="range" id="rad-range" min="0" max="60" value="0">
-      <div class="row">
-        <span class="lbl">여백</span>
-        <span class="val" id="pad-val">48px</span>
-      </div>
+      <div class="row"><span class="lbl">여백</span><span class="val" id="pad-val">48px</span></div>
       <input type="range" id="pad-range" min="0" max="160" value="48">
-      <div class="row">
-        <span class="lbl">폰트 크기 배율</span>
-        <span class="val" id="fsz-val">1.0×</span>
-      </div>
-      <input type="range" id="fsz-range" min="30" max="120" value="75">
+      <div class="row"><span class="lbl">폰트 크기</span><span class="val" id="fsz-val">1.0×</span></div>
+      <input type="range" id="fsz-range" min="30" max="130" value="75">
     </div>
 
     <div class="divider"></div>
 
     <!-- 자동 재생성 -->
     <div class="sec">
-      <div class="sec-label">자동 재생성</div>
+      <div class="lbl-sec">자동 재생성</div>
       <div class="sw-row">
         <label class="sw">
           <input type="checkbox" id="auto-sw">
@@ -347,8 +326,8 @@
 
     <!-- 내보내기 -->
     <div class="sec">
-      <div class="sec-label">내보내기</div>
-      <button class="btn btn-ghost" onclick="exportPNG()">PNG 저장</button>
+      <div class="lbl-sec">내보내기</div>
+      <button class="btn btn-ghost" onclick="exportPNG()">PNG 저장 (1080×1080)</button>
       <div class="row">
         <span class="lbl">영상 프레임 수</span>
         <div style="display:flex;align-items:center;gap:4px;">
@@ -373,19 +352,22 @@
 <main id="stage"></main>
 
 <script>
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 // 전역 상태
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 const S = {
   n: 3,
-  sq: [],
-  style: 'arabic',
+  sq: [],            // n×n 숫자 배열
+  cellModes: [],     // n×n 셀별 폰트 모드 ('arabic'|'chinese')
+  numMode: 'arabic', // 'arabic'|'chinese'|'random'
   palette: ['#554efe', '#8a6d4a'],
   bg: '#0d0d0d',
+  textColorMode: 'auto',
+  textColor: '#ffffff',
   gap: 3,
   radius: 0,
   padding: 48,
-  fszMult: 0.75,   // 폰트 크기 배율 (0.3~1.2 범위)
+  fszMult: 1.0,
   colorMode: 'value',
   autoOn: false,
   autoSec: 3,
@@ -397,20 +379,21 @@ const S = {
   mediaRec: null,
 };
 
-const CS = 1080; // 캔버스 크기
+const CS = 1080;
 
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 // 마방진 알고리즘
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 
 // 홀수: 시암법
 function siamese(n) {
   const s = Array.from({length:n}, () => Array(n).fill(0));
-  let r = 0, c = Math.floor(n/2);
-  for (let v = 1; v <= n*n; v++) {
+  let r = 0, c = Math.floor(n / 2);
+  for (let v = 1; v <= n * n; v++) {
     s[r][c] = v;
-    const nr = (r-1+n)%n, nc = (c+1)%n;
-    if (s[nr][nc] !== 0) r = (r+1)%n;
+    const nr = (r - 1 + n) % n;
+    const nc = (c + 1) % n;
+    if (s[nr][nc] !== 0) r = (r + 1) % n;
     else { r = nr; c = nc; }
   }
   return s;
@@ -420,74 +403,94 @@ function siamese(n) {
 function doublyEven(n) {
   const s = Array.from({length:n}, () => Array(n).fill(0));
   let v = 1;
-  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) s[i][j] = v++;
-  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
-    const di = i%4, dj = j%4;
-    if ((di===0||di===3)&&(dj===0||dj===3)) s[i][j] = n*n+1-s[i][j];
-    else if ((di===1||di===2)&&(dj===1||dj===2)) s[i][j] = n*n+1-s[i][j];
+  for (let i = 0; i < n; i++)
+    for (let j = 0; j < n; j++)
+      s[i][j] = v++;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      const di = i % 4, dj = j % 4;
+      const corner = (di === 0 || di === 3) && (dj === 0 || dj === 3);
+      const inner  = (di === 1 || di === 2) && (dj === 1 || dj === 2);
+      if (corner || inner) s[i][j] = n * n + 1 - s[i][j];
+    }
   }
   return s;
 }
 
-// 단순짝수: 분할+교환법
+// 단순짝수 (6, 10, ...): 분할+교환법
 function singlyEven(n) {
-  const m = n/2;
+  const m = n / 2;
   const q = siamese(m);
   const s = Array.from({length:n}, () => Array(n).fill(0));
-  for (let i = 0; i < m; i++) for (let j = 0; j < m; j++) {
-    s[i][j]       = q[i][j];
-    s[i][j+m]     = q[i][j] + 2*m*m;
-    s[i+m][j]     = q[i][j] + 3*m*m;
-    s[i+m][j+m]   = q[i][j] + m*m;
-  }
-  const k = (n-2)/4;
-  const mid = Math.floor(m/2);
   for (let i = 0; i < m; i++) {
-    for (let j = 0; j < k; j++) {
-      if (i !== mid) sw(s,i,j,i+m,j);
+    for (let j = 0; j < m; j++) {
+      s[i][j]       = q[i][j];
+      s[i][j + m]   = q[i][j] + 2 * m * m;
+      s[i + m][j]   = q[i][j] + 3 * m * m;
+      s[i + m][j + m] = q[i][j] + m * m;
     }
-    if (i === mid) for (let j = 1; j <= k; j++) sw(s,i,j,i+m,j);
   }
-  for (let i = 0; i < m; i++) for (let j = n-k+1; j < n; j++) sw(s,i,j,i+m,j);
+  const k = Math.floor((n - 2) / 4);
+  const mid = Math.floor(m / 2);
+  for (let i = 0; i < m; i++) {
+    // 왼쪽 k열 교환 (중간행 제외)
+    for (let j = 0; j < k; j++) {
+      if (i !== mid) sw(s, i, j, i + m, j);
+    }
+    // 중간행: j=1부터 k열 교환
+    if (i === mid) {
+      for (let j = 1; j <= k; j++) sw(s, i, j, i + m, j);
+    }
+  }
+  // 오른쪽 k-1열 교환
+  for (let i = 0; i < m; i++) {
+    for (let j = n - k + 1; j < n; j++) sw(s, i, j, i + m, j);
+  }
   return s;
 }
 
-function sw(s,r1,c1,r2,c2) { [s[r1][c1],s[r2][c2]] = [s[r2][c2],s[r1][c1]]; }
+function sw(s, r1, c1, r2, c2) {
+  [s[r1][c1], s[r2][c2]] = [s[r2][c2], s[r1][c1]];
+}
 
 function genSquare(n) {
-  if (n%2===1) return siamese(n);
-  if (n%4===0) return doublyEven(n);
+  if (n % 2 === 1)    return siamese(n);
+  if (n % 4 === 0)    return doublyEven(n);
   return singlyEven(n);
 }
 
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 // 한자 변환
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 const KN = ['','一','二','三','四','五','六','七','八','九'];
 
 function toKanji(n) {
   if (n <= 9) return KN[n];
-  if (n < 20) return '十' + (n%10 ? KN[n%10] : '');
+  if (n < 20) return '十' + (n % 10 ? KN[n % 10] : '');
   if (n < 100) {
-    const t = Math.floor(n/10), o = n%10;
+    const t = Math.floor(n / 10), o = n % 10;
     return KN[t] + '十' + (o ? KN[o] : '');
   }
-  const h = Math.floor(n/100), rest = n%100;
-  let str = (h===1 ? '百' : KN[h]+'百');
+  const h = Math.floor(n / 100), rest = n % 100;
+  let str = (h === 1 ? '百' : KN[h] + '百');
   if (rest >= 10) {
-    const t = Math.floor(rest/10), o = rest%10;
-    str += (t===1 ? '十' : KN[t]+'十') + (o ? KN[o] : '');
+    const t = Math.floor(rest / 10), o = rest % 10;
+    str += (t === 1 ? '十' : KN[t] + '十') + (o ? KN[o] : '');
   } else if (rest > 0) str += KN[rest];
   return str;
 }
 
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 // 색상 유틸
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 function hexRGB(h) {
-  return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+  return [
+    parseInt(h.slice(1,3), 16),
+    parseInt(h.slice(3,5), 16),
+    parseInt(h.slice(5,7), 16),
+  ];
 }
-function lum([r,g,b]) { return (0.299*r + 0.587*g + 0.114*b) / 255; }
+function luminance([r,g,b]) { return (0.299*r + 0.587*g + 0.114*b) / 255; }
 
 function cellBg(row, col, val) {
   const pal = S.palette;
@@ -495,32 +498,58 @@ function cellBg(row, col, val) {
   const n = S.n, len = pal.length;
   switch (S.colorMode) {
     case 'value': {
-      const idx = Math.floor((val-1) * len / (n*n));
-      return pal[Math.min(idx, len-1)];
+      const idx = Math.floor((val - 1) * len / (n * n));
+      return pal[Math.min(idx, len - 1)];
     }
-    case 'checker': return pal[(row+col) % len];
+    case 'checker': return pal[(row + col) % len];
     case 'row':     return pal[row % len];
     case 'col':     return pal[col % len];
     case 'quad': {
-      const qr = row < Math.floor(n/2) ? 0 : 1;
-      const qc = col < Math.floor(n/2) ? 0 : 1;
-      return pal[(qr*2+qc) % len];
+      const qr = row < Math.floor(n / 2) ? 0 : 1;
+      const qc = col < Math.floor(n / 2) ? 0 : 1;
+      return pal[(qr * 2 + qc) % len];
     }
     default: return pal[0];
   }
 }
 
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
+// 셀 폰트 모드 생성
+// ═══════════════════════════════════════════
+function buildCellModes(n) {
+  const modes = Array.from({length:n}, () => Array(n).fill('arabic'));
+  if (S.numMode === 'chinese') {
+    return Array.from({length:n}, () => Array(n).fill('chinese'));
+  }
+  if (S.numMode === 'random') {
+    for (let r = 0; r < n; r++)
+      for (let c = 0; c < n; c++)
+        modes[r][c] = Math.random() < 0.5 ? 'arabic' : 'chinese';
+  }
+  return modes;
+}
+
+// ═══════════════════════════════════════════
 // p5 스케치
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 const sketch = p => {
   p.setup = () => {
     const cv = p.createCanvas(CS, CS);
     cv.parent('stage');
     cv.elt.style.cssText = 'max-width:100%;max-height:100%;display:block;';
     p.noLoop();
+
+    // 폰트 로드 대기 후 첫 렌더
     S.sq = genSquare(S.n);
-    p.redraw();
+    S.cellModes = buildCellModes(S.n);
+
+    const fontPromises = [
+      document.fonts.load('400 40px "adhesive-nr-eight"'),
+      document.fonts.load('900 40px "kozuka-mincho-pr6n"'),
+    ];
+    Promise.all(fontPromises)
+      .catch(() => {}) // Typekit 로드 실패해도 일단 그리기
+      .finally(() => p.redraw());
   };
 
   p.draw = () => {
@@ -529,8 +558,8 @@ const sketch = p => {
 
     const n = S.n, sq = S.sq;
     const pad = S.padding, gap = S.gap, rad = S.radius;
-    const gridW = CS - pad*2;
-    const cell = (gridW - gap*(n-1)) / n;
+    const gridW = CS - pad * 2;
+    const cell = (gridW - gap * (n - 1)) / n;
     const ctx = p.drawingContext;
 
     p.noStroke();
@@ -538,35 +567,43 @@ const sketch = p => {
     for (let r = 0; r < n; r++) {
       for (let c = 0; c < n; c++) {
         const val = sq[r][c];
-        const x = pad + c*(cell+gap);
-        const y = pad + r*(cell+gap);
+        const x = pad + c * (cell + gap);
+        const y = pad + r * (cell + gap);
 
         // 셀 배경
         const bgHex = cellBg(r, c, val);
         const [cr,cg,cb] = hexRGB(bgHex);
         p.fill(cr, cg, cb);
         if (rad > 0) p.rect(x, y, cell, cell, rad);
-        else p.rect(x, y, cell, cell);
+        else         p.rect(x, y, cell, cell);
 
-        // 텍스트 — drawingContext로 정확한 폰트 지정
-        const textColor = lum([cr,cg,cb]) > 0.5 ? '#111' : '#fff';
-        const str = S.style === 'arabic' ? String(val) : toKanji(val);
+        // 텍스트 색상
+        let textColor;
+        if (S.textColorMode === 'auto') {
+          textColor = luminance([cr,cg,cb]) > 0.5 ? '#111111' : '#ffffff';
+        } else {
+          textColor = S.textColor;
+        }
+
+        // 셀별 폰트 모드
+        const mode = S.cellModes[r] ? S.cellModes[r][c] : 'arabic';
+        const str  = mode === 'chinese' ? toKanji(val) : String(val);
 
         ctx.save();
-        ctx.fillStyle = textColor;
-        ctx.textAlign = 'center';
+        ctx.fillStyle   = textColor;
+        ctx.textAlign   = 'center';
         ctx.textBaseline = 'middle';
 
-        if (S.style === 'arabic') {
-          const fsz = cell * S.fszMult * 0.58;
+        if (mode === 'arabic') {
+          const fsz = cell * S.fszMult * 0.46;
           ctx.font = `400 ${fsz}px "adhesive-nr-eight", sans-serif`;
-          ctx.fillText(str, x + cell/2, y + cell/2 + fsz*0.04);
+          ctx.fillText(str, x + cell / 2, y + cell / 2 + fsz * 0.04);
         } else {
-          const charLen = str.length;
-          const scale = charLen === 1 ? 0.64 : charLen === 2 ? 0.50 : 0.36;
-          const fsz = cell * S.fszMult * scale;
+          const cLen = str.length;
+          const scale = cLen === 1 ? 0.56 : cLen === 2 ? 0.44 : 0.32;
+          const fsz   = cell * S.fszMult * scale;
           ctx.font = `900 ${fsz}px "kozuka-mincho-pr6n", serif`;
-          ctx.fillText(str, x + cell/2, y + cell/2 + fsz*0.03);
+          ctx.fillText(str, x + cell / 2, y + cell / 2 + fsz * 0.03);
         }
 
         ctx.restore();
@@ -575,11 +612,20 @@ const sketch = p => {
   };
 };
 
-const P = new p5(sketch);
+window._P = new p5(sketch);
 
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
+// 재생성
+// ═══════════════════════════════════════════
+function regen() {
+  S.sq = genSquare(S.n);
+  S.cellModes = buildCellModes(S.n);
+  window._P.redraw();
+}
+
+// ═══════════════════════════════════════════
 // 컨트롤 바인딩
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 
 // n 슬라이더
 document.getElementById('n-range').addEventListener('input', function() {
@@ -598,15 +644,19 @@ function bindRange(id, dispId, setter, fmt) {
     setter(v);
   });
 }
-
-bindRange('gap-range', 'gap-val', v => { S.gap = v; P.redraw(); }, v => v+'px');
-bindRange('rad-range', 'rad-val', v => { S.radius = v; P.redraw(); }, v => v+'px');
-bindRange('pad-range', 'pad-val', v => { S.padding = v; P.redraw(); }, v => v+'px');
-bindRange('fsz-range', 'fsz-val', v => { S.fszMult = v/75; P.redraw(); }, v => (v/75).toFixed(1)+'×');
+bindRange('gap-range', 'gap-val', v => { S.gap = v; window._P.redraw(); }, v => v+'px');
+bindRange('rad-range', 'rad-val', v => { S.radius = v; window._P.redraw(); }, v => v+'px');
+bindRange('pad-range', 'pad-val', v => { S.padding = v; window._P.redraw(); }, v => v+'px');
+bindRange('fsz-range', 'fsz-val', v => { S.fszMult = v/75; window._P.redraw(); }, v => (v/75).toFixed(1)+'×');
 
 // 배경색
 document.getElementById('bg-pick').addEventListener('input', e => {
-  S.bg = e.target.value; P.redraw();
+  S.bg = e.target.value; window._P.redraw();
+});
+
+// 폰트 색상
+document.getElementById('tc-pick').addEventListener('input', e => {
+  S.textColor = e.target.value; window._P.redraw();
 });
 
 // 자동 재생성
@@ -622,7 +672,7 @@ document.getElementById('auto-sec').addEventListener('input', function() {
 function startAuto() {
   stopAuto();
   S._timer = setInterval(() => {
-    regen();
+    regen(); // 캔버스 즉시 반영
     if (S.recording) {
       S.recCount++;
       document.getElementById('rec-cur').textContent = S.recCount;
@@ -630,13 +680,15 @@ function startAuto() {
     }
   }, S.autoSec * 1000);
 }
+
 function stopAuto() {
-  clearInterval(S._timer); S._timer = null;
+  clearInterval(S._timer);
+  S._timer = null;
 }
 
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 // 팔레트 UI
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 function renderPalette() {
   const wrap = document.getElementById('palette');
   wrap.innerHTML = '';
@@ -645,11 +697,11 @@ function renderPalette() {
     item.className = 'swatch';
     const inp = document.createElement('input');
     inp.type = 'color'; inp.value = col;
-    inp.addEventListener('input', e => { S.palette[i] = e.target.value; P.redraw(); });
+    inp.addEventListener('input', e => { S.palette[i] = e.target.value; window._P.redraw(); });
     if (S.palette.length > 1) {
       const del = document.createElement('button');
       del.className = 'swatch-del'; del.textContent = '×';
-      del.onclick = () => { S.palette.splice(i,1); renderPalette(); P.redraw(); };
+      del.onclick = () => { S.palette.splice(i, 1); renderPalette(); window._P.redraw(); };
       item.appendChild(del);
     }
     item.appendChild(inp);
@@ -658,34 +710,44 @@ function renderPalette() {
   if (S.palette.length < 8) {
     const add = document.createElement('button');
     add.className = 'swatch-add'; add.textContent = '+';
-    add.onclick = () => { S.palette.push('#ffffff'); renderPalette(); P.redraw(); };
+    add.onclick = () => { S.palette.push('#ffffff'); renderPalette(); window._P.redraw(); };
     wrap.appendChild(add);
   }
 }
 
-// ═══════════════════════════════════
-// 숫자 스타일 / 색상 모드
-// ═══════════════════════════════════
-function setStyle(s) {
-  S.style = s;
-  document.getElementById('tab-a').classList.toggle('on', s==='arabic');
-  document.getElementById('tab-c').classList.toggle('on', s==='chinese');
-  P.redraw();
-}
-function setCM(m) { S.colorMode = m; P.redraw(); }
-
-// ═══════════════════════════════════
-// 재생성 / 내보내기
-// ═══════════════════════════════════
-function regen() {
-  S.sq = genSquare(S.n);
-  P.redraw();
+// ═══════════════════════════════════════════
+// 숫자 모드 / 색상 모드
+// ═══════════════════════════════════════════
+function setNumMode(m) {
+  S.numMode = m;
+  ['a','c','r'].forEach((id, i) => {
+    document.getElementById('tab-'+id).classList.toggle('on', ['arabic','chinese','random'][i] === m);
+  });
+  // 랜덤 혼용 시 cellModes 재생성
+  S.cellModes = buildCellModes(S.n);
+  window._P.redraw();
 }
 
+function setCM(m) { S.colorMode = m; window._P.redraw(); }
+
+function setTextColorMode(m) {
+  S.textColorMode = m;
+  document.getElementById('tc-auto').classList.toggle('on', m === 'auto');
+  document.getElementById('tc-manual').classList.toggle('on', m === 'manual');
+  document.getElementById('tc-pick-row').style.display = m === 'manual' ? 'flex' : 'none';
+  window._P.redraw();
+}
+
+// ═══════════════════════════════════════════
+// PNG 내보내기
+// ═══════════════════════════════════════════
 function exportPNG() {
-  P.save('magic-square-' + Date.now() + '.png');
+  window._P.save('magic-square-' + Date.now() + '.png');
 }
 
+// ═══════════════════════════════════════════
+// WebM 내보내기
+// ═══════════════════════════════════════════
 function toggleVideo() {
   if (S.recording) stopVideo();
   else startVideo();
@@ -703,9 +765,9 @@ function startVideo() {
     S.recChunks = [];
     S.mediaRec.ondataavailable = e => { if (e.data.size > 0) S.recChunks.push(e.data); };
     S.mediaRec.onstop = () => {
-      const blob = new Blob(S.recChunks, {type:'video/webm'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const blob = new Blob(S.recChunks, {type: 'video/webm'});
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
       a.href = url; a.download = 'magic-square-' + Date.now() + '.webm';
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
@@ -720,7 +782,7 @@ function startVideo() {
     document.getElementById('rec-cur').textContent = 0;
     document.getElementById('rec-badge').classList.add('on');
     document.getElementById('vid-btn').textContent = '● 녹화 중지';
-    if (!S.autoOn) startAuto();
+    if (!S.autoOn) startAuto(); // 자동 재생성 없으면 녹화용으로 시작
   } catch(err) {
     console.error(err);
     alert('MediaRecorder 미지원 브라우저입니다. Chrome을 사용해주세요.');
@@ -732,9 +794,9 @@ function stopVideo() {
   if (!S.autoOn) stopAuto();
 }
 
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 // 초기화
-// ═══════════════════════════════════
+// ═══════════════════════════════════════════
 renderPalette();
 </script>
 </body>
